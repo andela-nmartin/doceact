@@ -25,8 +25,6 @@ The MIT License (MIT). Please see [License File](LICENSE) for more information.
 [license-url]: LICENSE
 
 
-[![Test Coverage](https://codeclimate.com/repos/56a2211afaf90c39110062e7/badges/8df98f2fa7ab990b6850/coverage.svg)](https://codeclimate.com/repos/56a2211afaf90c39110062e7/coverage)
-
 ## Document Management System (React, Node, Express, Mongo)
 
 ##  Models
