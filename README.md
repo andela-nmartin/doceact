@@ -6,8 +6,8 @@ Adapted from the `webpack-express-boilerplate` forked from @gottsohn
 [![React Version][reactjs-image]][reactjs-url]
 [![Firebase Version][firebase-image]][firebase-url]
 [![Material UI Version][material-ui-image]][material-ui-url]
-[![Build Status](https://semaphoreci.com/api/v1/andela-nmartin/doceact/branches/master/shields_badge.svg)](https://semaphoreci.com/andela-nmartin/doceact)
-[![Coverage Status](https://coveralls.io/repos/github/andela-nmartin/doceact/badge.svg?branch=master)](https://coveralls.io/github/andela-nmartin/doceact?branch=master)
+[![Build Status](https://semaphoreci.com/api/v1/n8e/doceact/branches/master/shields_badge.svg)](https://semaphoreci.com/n8e/doceact)
+[![Coverage Status](https://coveralls.io/repos/github/n8e/doceact/badge.svg?branch=master)](https://coveralls.io/github/n8e/doceact?branch=master)
 [![License][license-image]][license-url]
 
 
