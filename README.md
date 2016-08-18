@@ -4,7 +4,6 @@ Adapted from the `webpack-express-boilerplate` forked from @gottsohn
 
 [![Javascript Version][javascript-image]][javascript-url]
 [![React Version][reactjs-image]][reactjs-url]
-
 [![Material UI Version][material-ui-image]][material-ui-url]
 [![Build Status](https://semaphoreci.com/api/v1/n8e/doceact/branches/master/shields_badge.svg)](https://semaphoreci.com/n8e/doceact)
 [![Coverage Status](https://coveralls.io/repos/github/n8e/doceact/badge.svg?branch=master)](https://coveralls.io/github/n8e/doceact?branch=master)
