@@ -1,6 +1,5 @@
-// require the modules for database and password
-import * as mongoose from 'mongoose';
-import * as bcrypt from 'bcrypt-nodejs';
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
 
 const Schema = mongoose.Schema;
 
@@ -32,7 +31,7 @@ const UserSchema = new Schema({
 });
 
 UserSchema.pre('save', (next) => {
-  let user = this;
+  const user = this;
 
   if (!user.isModified('password')) {
     return next();
@@ -48,9 +47,9 @@ UserSchema.pre('save', (next) => {
 });
 
 UserSchema.methods.comparePassword = (password) => {
-  let user = this;
+  const user = this;
   return bcrypt.compareSync(password, user.password);
 };
 
 // make the model available to our users in our Node applications
-export default mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

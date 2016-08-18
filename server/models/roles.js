@@ -1,5 +1,4 @@
-// require needed modules
-import * as mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
@@ -19,4 +18,4 @@ const RolesSchema = new Schema({
 });
 
 // make the model available to our users in our Node applications
-export default mongoose.model('Roles', RolesSchema);
+module.exports = mongoose.model('Roles', RolesSchema);
