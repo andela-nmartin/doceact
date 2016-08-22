@@ -31,6 +31,9 @@
       }
     });
 
+    const api = require('./server/routes/index')(app, express);
+    app.use('/api', api);
+
     app.use(middleware);
     app.use(webpackHotMiddleware(compiler));
     app.get('*', (req, res) => {
