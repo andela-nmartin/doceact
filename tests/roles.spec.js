@@ -1,12 +1,12 @@
-const url = 'http://localhost:4000';
-const expect = require('chai').expect;
-const request = require('superagent');
+var url = 'http://localhost:4000';
+var expect = require('chai').expect;
+var request = require('superagent');
 
-describe('Roles', () => {
-  it('validates that the seeded roles are stored in database', (done) => {
+describe('Roles', function() {
+  it('validates that the seeded roles are stored in database', function(done) {
     request
       .get(url + '/api/users/roles')
-      .end((err, res) => {
+      .end(function(err, res) {
         // expected responses after seeding
         expect(res.status).to.equal(200);
         expect(res.body.length).to.equal(2);
@@ -23,14 +23,14 @@ describe('Roles', () => {
       });
   });
 
-  it('validates that a new role created has a unique title', (done) => {
+  it('validates that a new role created has a unique title', function(done) {
     request
       .post(url + '/api/users/roles')
       .send({
         id: 1,
         title: 'Administrator'
       })
-      .end((err, res) => {
+      .end(function(err, res) {
         expect(res.status).to.equal(409);
         expect(res.body.code).to.equal(11000);
         expect(res.body.index).to.equal(0);

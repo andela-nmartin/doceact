@@ -1,41 +1,41 @@
-const url = 'http://localhost:4000';
-const expect = require('chai').expect;
-const request = require('superagent');
-const moment = require('moment');
+var url = 'http://localhost:4000';
+var expect = require('chai').expect;
+var request = require('superagent');
+var moment = require('moment');
 
-const user = {
+var user = {
     username: 'smalik',
     password: '12345'
   };
 
 var authToken, userId, doc1id, doc2id, doc3id, doc4id;
 
-const document1 = {
+var document1 = {
     title: 'Area of Triangle',
     content: 'This is obtained from the base and height. Get half of' +
       ' the base and multiply by the height to get the area.'
   };
-const document2 = {
+var document2 = {
     title: 'Cone',
     content: 'Has a circular base and a pointed top. It is a third of a ' +
       'cylinder'
   };
-const document3 = {
+var document3 = {
     title: 'Perimeter of Rectangle',
     content: 'Obtained by summing the length and width and doubling the result.'
   };
-const document4 = {
+var document4 = {
     title: 'Cylinder',
     content: 'Volume obtained using area of base multiplied by the height.'
   };
 
-describe('Document', () => {
+describe('Document', function() {
   it('validates that one has to be authenticated to access documents ' +
     '(GET /api/documents)',
-    (done) => {
+    function(done) {
       request
         .get(url + '/api/documents')
-        .end((err, res) => {
+        .end(function(err, res) {
           expect(typeof res.body).to.equal('object');
           expect(res.status).to.equal(403);
           expect(res.body.success).to.equal(false);
@@ -51,7 +51,7 @@ describe('Document tests requiring authentication', function() {
     request
       .post(url + '/api/users/login')
       .send(user)
-      .end((err, res) => {
+      .end(function(err, res) {
         userId = res.body.id;
         authToken = res.body.token;
         done();
@@ -60,12 +60,12 @@ describe('Document tests requiring authentication', function() {
 
   it('validates that a document is created by a user logged in ' +
     '(POST /api/documents)',
-    (done) => {
+    function(done) {
       request
         .post(url + '/api/documents')
         .set('x-access-token', authToken)
         .send(document1)
-        .end((err, res) => {
+        .end(function(err, res) {
           doc1id = res.body.document._id;
           expect(res.status).to.equal(200);
           expect(typeof res.body.document).to.equal('object');
@@ -78,12 +78,12 @@ describe('Document tests requiring authentication', function() {
 
   it('validates that a document is created by a user logged in ' +
     '(POST /api/documents)',
-    (done) => {
+    function(done) {
       request
         .post(url + '/api/documents')
         .set('x-access-token', authToken)
         .send(document2)
-        .end((err, res) => {
+        .end(function(err, res) {
           doc2id = res.body.document._id;
           expect(res.status).to.equal(200);
           expect(typeof res.body.document).to.equal('object');
@@ -96,11 +96,11 @@ describe('Document tests requiring authentication', function() {
 
   it('validates that one has to be authenticated to access documents ' +
     '(GET /api/documents)',
-    (done) => {
+    function(done) {
       request
         .get(url + '/api/documents')
         .set('x-access-token', authToken)
-        .end((err, res) => {
+        .end(function(err, res) {
           expect(res.status).to.equal(200);
           expect(typeof res.body).to.equal('object');
           expect(res.body.length).to.be.above(0);
@@ -114,11 +114,11 @@ describe('Document tests requiring authentication', function() {
   it('validates that all documents, limited by a specified number ' +
     'and ordered by published date, that can be accessed by a ' +
     'role USER, are returned when getAllDocumentsByRoleUser is called',
-    (done) => {
+    function(done) {
       request
         .get(url + '/api/documents/user')
         .set('x-access-token', authToken)
-        .end((err, res) => {
+        .end(function(err, res) {
           var itemOne = res.body[0];
           var itemLast = res.body[res.body.length - 2];
           expect(res.status).to.equal(200);
@@ -130,11 +130,11 @@ describe('Document tests requiring authentication', function() {
   it('validates that all documents, limited by a specified number, that were' +
     ' published on a certain date, are returned when getAllDocumentsByDate ' +
     'is called',
-    (done) => {
+    function(done) {
       request
         .get(url + '/api/documents/date')
         .set('x-access-token', authToken)
-        .end((err, res) => {
+        .end(function(err, res) {
           expect(res.status).to.equal(200);
           expect(res.body.length).to.be.above(1);
           expect(res.body[0].dateCreated).to.contain(moment(new Date())
@@ -150,7 +150,7 @@ describe('Administrator Documents', function() {
     request
       .get('http://localhost:4000/api/users/logout')
       .set('x-access-token', authToken)
-      .end(() => {
+      .end(function() {
         authToken = '';
         done();
       });
@@ -164,7 +164,7 @@ describe('Administrator Documents', function() {
         username: 'Sonnie',
         password: '12345'
       })
-      .end((err, res) => {
+      .end(function(err, res) {
         userId = res.body.id;
         authToken = res.body.token;
         done();
@@ -173,12 +173,12 @@ describe('Administrator Documents', function() {
 
   it('validates that a document is created by a admin logged in ' +
     '(POST /api/documents)',
-    (done) => {
+    function(done) {
       request
         .post(url + '/api/documents')
         .set('x-access-token', authToken)
         .send(document3)
-        .end((err, res) => {
+        .end(function(err, res) {
           doc3id = res.body.document._id;
           expect(res.status).to.equal(200);
           expect('Content-Type', 'json', done);
@@ -192,12 +192,12 @@ describe('Administrator Documents', function() {
 
   it('validates that a document is created by a admin logged in ' +
     '(POST /api/documents)',
-    (done) => {
+    function(done) {
       request
         .post(url + '/api/documents')
         .set('x-access-token', authToken)
         .send(document4)
-        .end((err, res) => {
+        .end(function(err, res) {
           doc4id = res.body.document._id;
           expect(res.status).to.equal(200);
           expect(typeof res.body.document).to.equal('object');
@@ -212,11 +212,11 @@ describe('Administrator Documents', function() {
     'and ordered by published date, that can be accessed by a role ' +
     'ADMINISTRATOR, are returned when ' +
     'getAllDocumentsByRoleAdministrator is called',
-    (done) => {
+    function(done) {
       request
         .get(url + '/api/documents/admin')
         .set('x-access-token', authToken)
-        .end((err, res) => {
+        .end(function(err, res) {
           var lastItem = res.body[res.body.length - 1];
           var firstItem = res.body[res.body.length - 2];
           expect(res.status).to.equal(200);
@@ -228,7 +228,7 @@ describe('Administrator Documents', function() {
 
   it('validates that any users document can be updated by an ' +
     'Administrator (PUT /api/documents)/:id',
-    (done) => {
+    function(done) {
       request
         .put(url + '/api/documents/' + doc1id)
         .set('x-access-token', authToken)
@@ -236,7 +236,7 @@ describe('Administrator Documents', function() {
           title: 'Frodo',
           content: 'A character in LOTR.'
         })
-        .end((err, res) => {
+        .end(function(err, res) {
           expect(res.status).to.equal(200);
           expect(typeof res.body).to.equal('object');
           expect(res.body.success).to.equal(true);
@@ -247,11 +247,11 @@ describe('Administrator Documents', function() {
 
   it('validates that any users document can be deleted by an ' +
     'Administrator (DELETE /api/documents)/:id',
-    (done) => {
+    function(done) {
       request
         .del(url + '/api/documents/' + doc2id)
         .set('x-access-token', authToken)
-        .end((err, res) => {
+        .end(function(err, res) {
           expect(res.status).to.equal(200);
           expect(typeof res.body).to.equal('object');
           expect(res.body.message.title).to.equal(document2.title);
@@ -261,13 +261,13 @@ describe('Administrator Documents', function() {
     });
 });
 // tests for manipulating documents access
-describe('Document tests requiring authentication', () => {
+describe('Document tests requiring authentication', function() {
   // logout first
   beforeEach(function logout(done) {
     request
       .get('http://localhost:4000/api/users/logout')
       .set('x-access-token', authToken)
-      .end(() => {
+      .end(function() {
         authToken = '';
         done();
       });
@@ -281,7 +281,7 @@ describe('Document tests requiring authentication', () => {
         username: 'tn',
         password: '12345'
       })
-      .end((err, res) => {
+      .end(function(err, res) {
         userId = res.body.id;
         authToken = res.body.token;
         done();
@@ -290,7 +290,7 @@ describe('Document tests requiring authentication', () => {
 
   it('validates that a document can only be updated by the creator or an ' +
     'Administrator (PUT /api/documents/:id)',
-    (done) => {
+    function(done) {
       request
         .put(url + '/api/documents/' + doc1id)
         .set('x-access-token', authToken)
@@ -298,7 +298,7 @@ describe('Document tests requiring authentication', () => {
           title: 'Frodo',
           content: 'A character in LOTR.'
         })
-        .end((err, res) => {
+        .end(function(err, res) {
           expect(res.status).to.equal(403);
           expect(typeof res.body).to.equal('object');
           expect(res.body.message).to.equal('Forbidden to update this document.');
@@ -308,11 +308,11 @@ describe('Document tests requiring authentication', () => {
 
   it('validates that a document can only be deleted by the creator or an ' +
     'Administrator (DELETE /api/documents/:id)',
-    (done) => {
+    function(done) {
       request
         .del(url + '/api/documents/' + doc1id)
         .set('x-access-token', authToken)
-        .end((err, res) => {
+        .end(function(err, res) {
           expect(res.status).to.equal(403);
           expect(typeof res.body).to.equal('object');
           expect(res.body.message).to.equal('Forbidden to delete this document.');
