@@ -1,20 +1,20 @@
-(() => {
+(function() {
   'use strict';
   // require the module jsonwebtoken
-  const env = process.env.NODE_ENV || 'development';
-  const config = require('../config');
-  const jsonwebtoken = require('jsonwebtoken');
-  const secretKey = config.secretKey;
+  var env = process.env.NODE_ENV || 'development';
+  var config = require('../config');
+  var jsonwebtoken = require('jsonwebtoken');
+  var secretKey = config.secretKey;
 
   module.exports = {
     // function checks for the token
-    authenticate: (req, res, next) => {
+    authenticate: function(req, res, next) {
       console.log('Authenticated!');
       var token = req.body.token || req.params.token ||
         req.headers['x-access-token'];
       // check if token exists
       if (token) {
-        jsonwebtoken.verify(token, secretKey, (err, decoded) => {
+        jsonwebtoken.verify(token, secretKey, function(err, decoded) {
           if (err) {
             res.status(403).send({
               success: false,

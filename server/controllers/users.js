@@ -1,16 +1,16 @@
-(() => {
+(function() {
   'use strict';
   // get the required models and db connection
-  const env = process.env.NODE_ENV || 'development';
-  const config = require('../config');
-  const User = require('../models/users');
-  const Role = require('../models/roles');
-  const jsonwebtoken = require('jsonwebtoken');
-  const secretKey = config.secretKey;
+  var env = process.env.NODE_ENV || 'development';
+  var config = require('../config');
+  var User = require('../models/users');
+  var Role = require('../models/roles');
+  var jsonwebtoken = require('jsonwebtoken');
+  var secretKey = config.secretKey;
 
   // create token for authentication
-  const createToken = (user) => {
-    const token = jsonwebtoken.sign(user, secretKey, {
+  var createToken = function(user) {
+    var token = jsonwebtoken.sign(user, secretKey, {
       expiresIn: 1440
     });
     return token;
@@ -18,8 +18,8 @@
 
   module.exports = {
     // to add a user to the db
-    create: (req, res) => {
-      const user = new User({
+    create: function(req, res) {
+      var user = new User({
         name: {
           first: req.body.firstname,
           last: req.body.lastname
@@ -32,7 +32,7 @@
       // find a role based on the input on the body
       Role.find({
         id: req.body.role
-      }, (err, roles) => {
+      }, function(err, roles) {
         if (err) {
           res.send(err);
           return;
@@ -40,9 +40,9 @@
         // add the role to the user before being saved
         user.role = roles[0].title;
         // assign a token to the created user
-        const token = createToken(user);
+        var token = createToken(user);
         // save the user object
-        user.save((err) => {
+        user.save(function(err) {
           if (err) {
             res.status(403).send(err);
           } else {
@@ -57,10 +57,10 @@
     },
 
     // to login user into docms system
-    login: (req, res) => {
+    login: function(req, res) {
       User.findOne({
         username: req.body.username
-      }).exec((err, user) => {
+      }).exec(function(err, user) {
         if (err) {
           throw err;
         }
@@ -69,7 +69,7 @@
             message: 'User does not exist'
           });
         } else if (user) {
-          const validPassword = user.comparePassword(req.body.password);
+          var validPassword = user.comparePassword(req.body.password);
           if (!validPassword) {
             res.status(401).send({
               message: 'Invalid Password'
@@ -77,7 +77,7 @@
           } else {
             // token
             delete user.password;
-            const token = createToken(user);
+            var token = createToken(user);
             res.json({
               currentUser: user,
               id: user._id,
@@ -91,7 +91,7 @@
     },
 
     // logout function
-    logout: (req, res) => {
+    logout: function(req, res) {
       delete req.headers['x-access-token'];
       return res.status(200).json({
         'message': 'User has been successfully logged out'
@@ -99,8 +99,8 @@
     },
 
     // to get the mongo cluster of all the users stored on the db
-    getAll: (req, res) => {
-      User.find({}, (err, users) => {
+    getAll: function(req, res) {
+      User.find({}, function(err, users) {
         if (err) {
           res.send(err);
           return;
@@ -110,11 +110,11 @@
     },
 
     // get user by id
-    get: (req, res) => {
-      const id = req.params.id;
+    get: function(req, res) {
+      var id = req.params.id;
       User.find({
         _id: id
-      }, (err, users) => {
+      }, function(err, users) {
         if (err) {
           res.send(err);
           return;
@@ -124,10 +124,10 @@
     },
 
     // to get the mongo cluster of all the user roles
-    getAllUsersRoles: (req, res) => {
+    getAllUsersRoles: function(req, res) {
       User.find({
         'role': 'User'
-      }, (err, users) => {
+      }, function(err, users) {
         if (err) {
           res.send(err);
           return;
@@ -137,10 +137,10 @@
     },
 
     // to get the mongo cluster of all the user roles
-    getAllAdminRoles: (req, res) => {
+    getAllAdminRoles: function(req, res) {
       User.find({
         'role': 'Administrator'
-      }, (err, users) => {
+      }, function(err, users) {
         if (err) {
           res.send(err);
           return;
@@ -150,10 +150,10 @@
     },
 
     // update user by id
-    update: (req, res) => {
-      const id = req.params.id;
+    update: function(req, res) {
+      var id = req.params.id;
       // update function
-      const updateMe = (id) => {
+      var updateMe = function(id) {
         User.findOneAndUpdate({
           _id: id
         }, {
@@ -174,7 +174,7 @@
           username: req.body.username,
           password: req.body.password,
           role: req.body.role
-        }, (err, users) => {
+        }, function(err, users) {
           if (err) {
             res.send(err);
             return;
@@ -192,25 +192,25 @@
         });
       };
       if (req.decoded.role === 'Administrator' && id) {
-        const id5 = id;
+        var id5 = id;
         updateMe(id5.trim());
       } else if (id) {
-        const id6 = req.decoded._id;
+        var id6 = req.decoded._id;
         updateMe(id6.trim());
       } else if (req.decoded.role === 'Administrator' && !id) {
-        const id7 = req.decoded._id;
+        var id7 = req.decoded._id;
         updateMe(id7.trim());
       }
     },
 
     // delete user by id
-    delete: (req, res) => {
+    delete: function(req, res) {
       // delete function
-      const deleteMe = (id) => {
+      var deleteMe = function(id) {
         User.findOneAndRemove({
             _id: id
           },
-          (err, user) => {
+          function(err, user) {
             if (err) {
               res.json(401, {
                 message: err
@@ -224,10 +224,10 @@
           });
       };
       if (req.decoded.role === 'Administrator') {
-        const id = req.params.id;
+        var id = req.params.id;
         deleteMe(id.trim());
       } else if (req.decoded._id === req.params.id) {
-        const id1 = req.decoded._id;
+        var id1 = req.decoded._id;
         deleteMe(id1.trim());
       } else {
         res.json(403, {
