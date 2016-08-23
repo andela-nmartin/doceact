@@ -1,16 +1,16 @@
-(function() {
+(() => {
   'use strict';
   // get the required models and db connection
-  var moment = require('moment'),
-    Document = require('../models/documents');
+  const moment = require('moment');
+  const Document = require('../models/documents');
 
   module.exports = {
     // get document by id
-    get: function(req, res) {
+    get: (req, res) => {
       var id = req.params.id;
       Document.find({
         _id: id
-      }, function(err, documents) {
+      }, (err, documents) => {
         if (err) {
           res.send(err);
           return;
@@ -20,8 +20,8 @@
     },
 
     // to get the mongo cluster of all the documents stored
-    getAll: function(req, res) {
-      Document.find({}, function(err, documents) {
+    getAll: (req, res) => {
+      Document.find({}, (err, documents) => {
         if (err) {
           res.send(err);
           return;
@@ -30,13 +30,13 @@
       });
     },
 
-    create: function(req, res) {
+    create: (req, res) => {
       var document = new Document({
         ownerId: req.decoded._id,
         title: req.body.title,
         content: req.body.content
       });
-      document.save(function(err) {
+      document.save((err) => {
         if (err) {
           res.send(err);
           return;
@@ -51,9 +51,9 @@
     },
 
     // update document by id
-    update: function(req, res) {
+    update: (req, res) => {
       var id = req.params.id;
-      Document.findById(req.params.id).exec(function(err, document) {
+      Document.findById(req.params.id).exec((err, document) => {
         if (err) {
           res.status(500).send({
             message: 'There was a problem deleting your document.'
@@ -81,7 +81,7 @@
                   title: req.body.title,
                   content: req.body.content
                 },
-                function(err) {
+                (err) => {
                   if (err) {
                     res.send(err);
                     return;
@@ -99,8 +99,8 @@
     },
 
     // delete document by id
-    delete: function(req, res) {
-      Document.findById(req.params.id).exec(function(err, document) {
+    delete: (req, res) => {
+      Document.findById(req.params.id).exec((err, document) => {
         if (err) {
           res.status(500).send({
             message: 'There was a problem deleting your document.'
@@ -122,7 +122,7 @@
               // delete or update
               Document.findOneAndRemove({
                 _id: req.params.id
-              }).exec(function(err, document) {
+              }).exec((err, document) => {
                 if (err) {
                   return err;
                 } else {
@@ -138,20 +138,20 @@
     },
 
     // to get the mongo cluster of all the documents filtered by 'User' role
-    getAllDocumentsByRoleUser: function(req, res) {
+    getAllDocumentsByRoleUser: (req, res) => {
       Document.find({})
         .populate('ownerId')
         .limit(4)
         .sort([
           ['dateCreated', 'descending']
         ])
-        .exec(function(err, documents) {
+        .exec((err, documents) => {
           if (err) {
             res.send(err);
             return;
           }
-          var filtered = documents.map(
-            function(obj) {
+          const filtered = documents.map(
+            (obj) => {
               if (obj.ownerId.role === 'User') {
                 return obj;
               }
@@ -166,20 +166,20 @@
     },
 
     // cluster of all the documents filtered by 'Administrator' role
-    getAllDocumentsByRoleAdministrator: function(req, res) {
+    getAllDocumentsByRoleAdministrator: (req, res) => {
       Document.find({})
         .populate('ownerId')
         .limit(4)
         .sort([
           ['dateCreated', 'descending']
         ])
-        .exec(function(err, documents) {
+        .exec((err, documents) => {
           if (err) {
             res.send(err);
             return;
           }
-          var filtered = documents.map(
-            function(obj) {
+          const filtered = documents.map(
+            (obj) => {
               if (obj.ownerId.role === 'Administrator') {
                 return obj;
               }
@@ -194,7 +194,7 @@
     },
 
     // to get the mongo cluster of all the documents filtered by date
-    getAllDocumentsByDate: function(req, res) {
+    getAllDocumentsByDate: (req, res) => {
       Document.find({
           dateCreated: {
             $gt: moment().subtract(1, 'day'),
@@ -202,7 +202,7 @@
           }
         })
         .limit(4)
-        .exec(function(err, documents) {
+        .exec((err, documents) => {
           if (err) {
             res.send(err);
             return;
@@ -211,11 +211,11 @@
         });
     },
 
-    getAllDocumentsParticularUser: function(req, res) {
-      var id = req.param('id');
+    getAllDocumentsParticularUser: (req, res) => {
+      const id = req.param('id');
       Document.find({
         ownerId: id
-      }, function(err, documents) {
+      }, (err, documents) => {
         if (err) {
           res.send(err);
           return;

@@ -1,4 +1,5 @@
 const url = 'http://localhost:4000';
+const expect = require('chai').expect;
 const request = require('superagent');
 const moment = require('moment');
 
@@ -7,31 +8,26 @@ const user = {
     password: '12345'
   };
 
-const authToken;
-const userId;
+var authToken, userId, doc1id, doc2id, doc3id, doc4id;
 
 const document1 = {
     title: 'Area of Triangle',
     content: 'This is obtained from the base and height. Get half of' +
       ' the base and multiply by the height to get the area.'
-  },
-  doc1id,
-  document2 = {
+  };
+const document2 = {
     title: 'Cone',
     content: 'Has a circular base and a pointed top. It is a third of a ' +
       'cylinder'
-  },
-  doc2id,
-  document3 = {
+  };
+const document3 = {
     title: 'Perimeter of Rectangle',
     content: 'Obtained by summing the length and width and doubling the result.'
-  },
-  doc3id,
-  document4 = {
+  };
+const document4 = {
     title: 'Cylinder',
     content: 'Volume obtained using area of base multiplied by the height.'
-  },
-  doc4id;
+  };
 
 describe('Document', () => {
   it('validates that one has to be authenticated to access documents ' +
@@ -40,10 +36,10 @@ describe('Document', () => {
       request
         .get(url + '/api/documents')
         .end((err, res) => {
-          expect(typeof res.body).toBe('object');
+          expect(typeof res.body).to.equal('object');
           expect(res.status).to.equal(403);
           expect(res.body.success).to.equal(false);
-          expect(res.body.message).toBe('No token provided!');
+          expect(res.body.message).to.equal('No token provided!');
           done();
         });
     });
@@ -72,10 +68,10 @@ describe('Document tests requiring authentication', function() {
         .end((err, res) => {
           doc1id = res.body.document._id;
           expect(res.status).to.equal(200);
-          expect(typeof res.body.document).toBe('object');
-          expect(res.body.document._id).toBeDefined();
+          expect(typeof res.body.document).to.equal('object');
+          expect(res.body.document._id).to.not.be.undefined;
           expect(res.body.document.title).to.equal(document1.title);
-          expect(res.body.document.content).toBe(document1.content);
+          expect(res.body.document.content).to.equal(document1.content);
           done();
         });
     });
@@ -90,10 +86,10 @@ describe('Document tests requiring authentication', function() {
         .end((err, res) => {
           doc2id = res.body.document._id;
           expect(res.status).to.equal(200);
-          expect(typeof res.body.document).toBe('object');
-          expect(res.body.document._id).toBeDefined();
+          expect(typeof res.body.document).to.equal('object');
+          expect(res.body.document._id).to.not.be.undefined;
           expect(res.body.document.title).to.equal(document2.title);
-          expect(res.body.document.content).toBe(document2.content);
+          expect(res.body.document.content).to.equal(document2.content);
           done();
         });
     });
@@ -106,8 +102,8 @@ describe('Document tests requiring authentication', function() {
         .set('x-access-token', authToken)
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(typeof res.body).toBe('object');
-          expect(res.body.length).toBeGreaterThan(0);
+          expect(typeof res.body).to.equal('object');
+          expect(res.body.length).to.be.above(0);
           expect(res.body[res.body.length - 1].title).to.equal(document2.title);
           expect(res.body[res.body.length - 1].content).to.equal(document2
             .content);
@@ -140,10 +136,9 @@ describe('Document tests requiring authentication', function() {
         .set('x-access-token', authToken)
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body.length).toBeGreaterThan(1);
-          expect(res.body[0].dateCreated).toContain(moment(new Date())
+          expect(res.body.length).to.be.above(1);
+          expect(res.body[0].dateCreated).to.contain(moment(new Date())
             .format('YYYY-MM-DD'));
-          expect(true).toBe(true);
           done();
         });
     });
@@ -187,10 +182,10 @@ describe('Administrator Documents', function() {
           doc3id = res.body.document._id;
           expect(res.status).to.equal(200);
           expect('Content-Type', 'json', done);
-          expect(typeof res.body.document).toBe('object');
-          expect(res.body.document._id).toBeDefined();
+          expect(typeof res.body.document).to.equal('object');
+          expect(res.body.document._id).to.not.be.undefined;
           expect(res.body.document.title).to.equal(document3.title);
-          expect(res.body.document.content).toBe(document3.content);
+          expect(res.body.document.content).to.equal(document3.content);
           done();
         });
     });
@@ -205,10 +200,10 @@ describe('Administrator Documents', function() {
         .end((err, res) => {
           doc4id = res.body.document._id;
           expect(res.status).to.equal(200);
-          expect(typeof res.body.document).toBe('object');
-          expect(res.body.document._id).toBeDefined();
+          expect(typeof res.body.document).to.equal('object');
+          expect(res.body.document._id).to.not.be.undefined;
           expect(res.body.document.title).to.equal(document4.title);
-          expect(res.body.document.content).toBe(document4.content);
+          expect(res.body.document.content).to.equal(document4.content);
           done();
         });
     });
@@ -226,7 +221,7 @@ describe('Administrator Documents', function() {
           var firstItem = res.body[res.body.length - 2];
           expect(res.status).to.equal(200);
           expect(lastItem.dateCreated).to.equal(firstItem.dateCreated);
-          expect(true).toBe(true);
+          expect(true).to.equal(true);
           done();
         });
     });
@@ -242,10 +237,10 @@ describe('Administrator Documents', function() {
           content: 'A character in LOTR.'
         })
         .end((err, res) => {
-          expect(res.status).toBe(200);
+          expect(res.status).to.equal(200);
           expect(typeof res.body).to.equal('object');
-          expect(res.body.success).toBe(true);
-          expect(res.body.message).toBe('Successfully updated Document!');
+          expect(res.body.success).to.equal(true);
+          expect(res.body.message).to.equal('Successfully updated Document!');
           done();
         });
     });
@@ -258,9 +253,9 @@ describe('Administrator Documents', function() {
         .set('x-access-token', authToken)
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(typeof res.body).toBe('object');
-          expect(res.body.message.title).toBe(document2.title);
-          expect(res.body.message.content).toBe(document2.content);
+          expect(typeof res.body).to.equal('object');
+          expect(res.body.message.title).to.equal(document2.title);
+          expect(res.body.message.content).to.equal(document2.content);
           done();
         });
     });
@@ -304,9 +299,9 @@ describe('Document tests requiring authentication', () => {
           content: 'A character in LOTR.'
         })
         .end((err, res) => {
-          expect(res.status).toBe(403);
-          expect(typeof res.body).toBe('object');
-          expect(res.body.message).toBe('Forbidden to update this document.');
+          expect(res.status).to.equal(403);
+          expect(typeof res.body).to.equal('object');
+          expect(res.body.message).to.equal('Forbidden to update this document.');
           done();
         });
     });
@@ -319,8 +314,8 @@ describe('Document tests requiring authentication', () => {
         .set('x-access-token', authToken)
         .end((err, res) => {
           expect(res.status).to.equal(403);
-          expect(typeof res.body).toBe('object');
-          expect(res.body.message).toBe('Forbidden to delete this document.');
+          expect(typeof res.body).to.equal('object');
+          expect(res.body.message).to.equal('Forbidden to delete this document.');
           done();
         });
     });
