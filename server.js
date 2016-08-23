@@ -1,11 +1,11 @@
-(() => {
+(function() {
   'use-strict';
   if (!process.env.NODE_ENV) {
     require('dotenv').load();
   }
 
   /* eslint no-console: 0 */
-  const path = require('path'),
+  var path = require('path'),
     express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
@@ -18,7 +18,7 @@
     port = config.port,
     app = express();
 
-  const api = require('./server/routes/index')(app, express);;
+  var api = require('./server/routes/index')(app, express);;
 
   if (isDeveloping) {
     const compiler = webpack(webpackConfig);
@@ -49,18 +49,18 @@
     app.use(bodyParser.json());
     app.use(webpackHotMiddleware(compiler));
     app.use('/api', api);
-    app.get('*', (req, res) => {
+    app.get('*', function(req, res) {
       res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'dist/index.html')));
       res.end();
     });
   } else {
     app.use(express.static(__dirname + '/dist'));
-    app.get('*', (req, res) => {
+    app.get('*', function(req, res) {
       res.sendFile(path.join(__dirname, 'dist/index.html'));
     });
   }
 
-  app.listen(port, '0.0.0.0', (err) => {
+  app.listen(port, '0.0.0.0', function(err) {
     if (err) {
       console.log(err);
     }
