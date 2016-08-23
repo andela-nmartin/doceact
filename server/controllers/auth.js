@@ -9,7 +9,7 @@
   module.exports = {
     // function checks for the token
     authenticate: (req, res, next) => {
-      console.log('Somebody just came to our app!');
+      console.log('Authenticated!');
       var token = req.body.token || req.params.token ||
         req.headers['x-access-token'];
       // check if token exists

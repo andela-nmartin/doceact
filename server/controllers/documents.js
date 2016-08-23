@@ -111,7 +111,6 @@
               message: 'No document found.'
             });
           } else {
-            console.log(req.decoded, document.ownerId);
             if (req.decoded._id !== String(document.ownerId) &&
               req.decoded.role === 'User') {
               // send 403 status and forbidden message

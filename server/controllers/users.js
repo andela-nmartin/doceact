@@ -217,7 +217,6 @@
               });
               return;
             } else {
-              console.log('RESPONSE ' + err);
               res.json(200, {
                 message: user
               });
