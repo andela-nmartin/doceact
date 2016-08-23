@@ -1,10 +1,10 @@
 
-var DocCtrl = require('../controllers/documents'),
-  UserCtrl = require('../controllers/users'),
-  RolesCtrl = require('../controllers/roles'),
-  auth = require('../controllers/auth');
+const DocCtrl = require('../controllers/documents');
+const UserCtrl = require('../controllers/users');
+const RolesCtrl = require('../controllers/roles');
+const auth = require('../controllers/auth');
 
-module.exports = function(app, express) {
+module.exports = (app, express) => {
   var api = express.Router();
   api.post('/users', UserCtrl.create);
   api.get('/users', UserCtrl.getAll);
