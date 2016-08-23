@@ -1,10 +1,10 @@
 // require needed modules
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 // create a schema
-const DocumentSchema = new Schema({
+var DocumentSchema = new Schema({
   ownerId: {
     type: Schema.Types.ObjectId,
     ref: 'User'

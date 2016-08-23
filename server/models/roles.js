@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 // create a schema
-const RolesSchema = new Schema({
+var RolesSchema = new Schema({
   id: {
     type: Number,
     unique:true

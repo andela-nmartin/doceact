@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
+var mongoose = require('mongoose');
+var bcrypt = require('bcrypt-nodejs');
 
-const Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 // create a schema
-const UserSchema = new Schema({
+var UserSchema = new Schema({
   username: {
     type: String,
     required: true,
@@ -37,7 +37,7 @@ UserSchema.pre('save', function(next) {
     return next();
   }
 
-  bcrypt.hash(user.password, null, null, (err, hash) => {
+  bcrypt.hash(user.password, null, null, function(err, hash) {
     if (err) {
       return next(err);
     }
