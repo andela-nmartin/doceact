@@ -1,12 +1,12 @@
 (() => {
   'use strict';
   // get the required models and db connection
-  const env = process.env.NODE_ENV || 'development',
-    config = require('../config'),
-    User = require('../models/users'),
-    Role = require('../models/roles'),
-    jsonwebtoken = require('jsonwebtoken'),
-    secretKey = config.secretKey;
+  const env = process.env.NODE_ENV || 'development';
+  const config = require('../config');
+  const User = require('../models/users');
+  const Role = require('../models/roles');
+  const jsonwebtoken = require('jsonwebtoken');
+  const secretKey = config.secretKey;
 
   // create token for authentication
   const createToken = (user) => {
