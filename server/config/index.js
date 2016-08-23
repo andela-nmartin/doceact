@@ -4,5 +4,6 @@ module.exports= {
   port: process.env.PORT,
   mongodb: {
     url: process.env.MONGODB_URL
-  }
+  },
+  secretKey: process.env.SECRET_KEY
 };
