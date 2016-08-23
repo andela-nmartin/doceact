@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andela-nmartin/doceact.git"
+    "url": "git+https://github.com/n8e/doceact.git"
   },
-  "author": "Nate Martin <godmetweenciati@gmail.com> (https://github.com/andela-nmartin)",
+  "author": "Nate Martin <godmetweenciati@gmail.com> (https://github.com/n8e)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/andela-nmartin/doceact/issues"
+    "url": "https://github.com/n8e/doceact/issues"
   },
-  "homepage": "https://github.com/andela-nmartin/doceact#readme",
+  "homepage": "https://github.com/n8e/doceact#readme",
   "engines": {
     "node": "6.2.1",
     "npm": "3.9.3"
