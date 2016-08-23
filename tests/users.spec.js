@@ -18,9 +18,9 @@ describe('Users', () => {
         })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(typeof res.body).toBe('object');
-          expect(res.body.success).toBe(true);
-          expect(res.body.message).toBe('User has been created!');
+          expect(typeof res.body).to.equal('object');
+          expect(res.body.success).to.equal(true);
+          expect(res.body.message).to.equal('User has been created!');
           done();
         });
     });
@@ -40,7 +40,7 @@ describe('Users', () => {
         })
         .end((err, res) => {
           expect(res.status).to.equal(403);
-          expect(typeof res.body).toBe('object');
+          expect(typeof res.body).to.equal('object');
           expect(res.body.code).to.equal(11000);
           expect(res.body.index).to.equal(0);
           done();
@@ -55,11 +55,11 @@ describe('Users', () => {
         .set('Accept', 'application/json')
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body.length).toBeGreaterThan(0);
+          expect(res.body.length).to.be.above(0);
           expect(res.body[res.body.length - 1].username).to.equal('batman');
           expect(res.body[res.body.length - 1].email)
             .to.equal('batman@cave.com');
-          expect(typeof res.body).toBe('object');
+          expect(typeof res.body).to.equal('object');
           done();
         });
     });
@@ -87,9 +87,9 @@ describe('Users', () => {
       })
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.success).toBe(true);
-        expect(res.body.message).toBe('Successfully logged in!');
-        expect(res.body.token).toBeDefined();
+        expect(res.body.success).to.equal(true);
+        expect(res.body.message).to.equal('Successfully logged in!');
+        expect(res.body.token).to.not.be.undefined;
         done();
       });
   });
@@ -103,7 +103,7 @@ describe('Users', () => {
       })
       .end((err, res) => {
         expect(res.status).to.equal(401);
-        expect(res.body.message).toBe('User does not exist');
+        expect(res.body.message).to.equal('User does not exist');
         done();
       });
   });
